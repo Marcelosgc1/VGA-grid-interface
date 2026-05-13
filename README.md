@@ -35,3 +35,6 @@ data = 2'b01;
 
 write_enable = 1'b1; (por 1 ciclo já basta).
 ```
+
+## Como usar em meu projeto?
+Copie os arquivos *VGA_driver.v* e *VGA_interface.v* para seu projeto e instancie o módulo VGA_interface.
