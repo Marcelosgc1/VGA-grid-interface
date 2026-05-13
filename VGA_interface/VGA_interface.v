@@ -1,45 +1,10 @@
 //made by Marcelo Tavares @ 2026
 
-/* 
-O que é isso?
-É uma interface simples para utilizar um monitor VGA, sendo
-capaz de desenhar quadrados [8x8] de quatro cores diferentes
-em posições previamente estabelecidas.
-
-Como funciona?
-Existem 64 registradores, cada um para quadrado [8x8] no monitor.
-
-Em "address", os bits [2:0] são usados para identificar a coluna
-e os bits [5:3] são utilizados para identificar as linhas.
-
-As cores possíveis são quatro:
-	00 - Preto
-	01 - Azul
-	10 - Amarelo
-	11 - Branco
-
-Para obter essas cores é preciso enviar o valor correspondente 
-na entrada "data".
-
-Ao fim, para confirmar a escrita é necessário ativar o sinal
-"write_enable", para escrever os valores no registrador.
-
-
-EXEMPLO:
-para desenhar um quadrado azul na posicão [1][2], isso seria
-nas colunas de 8 - 15 e linhas 16 - 23 basta fazer:
-
-col = 8/8 = 1;
-lin = 16/8 = 2;
-address = {{2},{1}} ou {3'b010,3'b001};
-
-azul = 01
-data = 2'b01;
-
-write_enable = 1'b1; (por 1 ciclo já basta).
-*/
-
-module VGA_interface(
+module VGA_interface
+#(
+	parameter SIZE = 3 //deve estar no intervalo [3,5]
+)
+(
 	input clk_25mhz, reset, write_enable,
 	input [1:0] data,
 	input [5:0] address,
@@ -48,10 +13,11 @@ module VGA_interface(
 );
 
 	wire [9:0] x_coord, y_coord;
-	reg in_scope;
-	reg [1:0] color;
+	reg in_scope, is_edge;
+	reg [1:0] curr_reg;
 	reg [1:0] register [63:0];
-
+	reg [11:0] color;
+	
 	integer i;
 	always @(posedge clk_25mhz or posedge reset) begin
 		if (reset) begin
@@ -67,12 +33,17 @@ module VGA_interface(
 	
 	
 	always @(*) begin	
-		in_scope = !((|y_coord[9:6]) | (|x_coord[9:6])); //verifica se os contadores estao fora do intervalo 0-63, nas linhas e colunas.
+		is_edge = !(|y_coord[SIZE-1:0]) | !(|x_coord[SIZE-1:0]) | (&y_coord[SIZE-1:0]) | (&x_coord[SIZE-1:0]); //verifica se algum dos contadores se encontra em uma borda (grid)
+		in_scope = !((|y_coord[9:SIZE+3]) | (|x_coord[9:SIZE+3])); //verifica se os contadores estao fora do intervalo 0-63, nas linhas e colunas.
+		
+		curr_reg = register[{y_coord[SIZE+2:SIZE], x_coord[SIZE+2:SIZE]}];
 	
-		if (in_scope)
-			color = register[{y_coord[5:3], x_coord[5:3]}];
+		if (is_edge & in_scope)
+			color = 12'h888; //cinza 
+		else if (in_scope)
+			color = {{8{curr_reg[1]}},{4{curr_reg[0]}}};
 		else
-			color = 0; //talvez pôr cinza aq?
+			color = 0; //preto
 	end
 		
 	VGA_driver driver(

@@ -4,7 +4,7 @@
 module VGA_driver( 
     input wire clock,     // 25 MHz
     input wire reset,     // Active high
-    input [1:0] color_in, // Pixel color data
+    input [11:0] color_in, // Pixel color data
     output [9:0] next_x,  // x-coordinate of NEXT pixel that will be drawn
     output [9:0] next_y,  // y-coordinate of NEXT pixel that will be drawn
     output wire hsync,    // HSYNC (to VGA connector)
@@ -156,9 +156,9 @@ module VGA_driver(
             //////////////////////////////// COLOR OUT ///////////////////////////////
             //////////////////////////////////////////////////////////////////////////
             // Assign colors if in active mode
-            red_reg<=(h_state==H_ACTIVE_STATE)?((v_state==V_ACTIVE_STATE) ? {4{color_in[1]}} : 8'd_0) : 8'd_0 ;
-            green_reg<=(h_state==H_ACTIVE_STATE)?((v_state==V_ACTIVE_STATE) ? {4{color_in[1]}} : 8'd_0) : 8'd_0 ;
-            blue_reg<=(h_state==H_ACTIVE_STATE)?((v_state==V_ACTIVE_STATE) ? {4{color_in[0]}} : 8'd_0) : 8'd_0 ;
+            red_reg<=(h_state==H_ACTIVE_STATE)?((v_state==V_ACTIVE_STATE) ? {color_in[11:8]} : 8'd_0) : 8'd_0 ;
+            green_reg<=(h_state==H_ACTIVE_STATE)?((v_state==V_ACTIVE_STATE) ? {color_in[7:4]} : 8'd_0) : 8'd_0 ;
+            blue_reg<=(h_state==H_ACTIVE_STATE)?((v_state==V_ACTIVE_STATE) ? {color_in[3:0]} : 8'd_0) : 8'd_0 ;
 
         end
     end

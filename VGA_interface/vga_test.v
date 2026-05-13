@@ -9,7 +9,7 @@ module vga_test(input [5:0] addr, input [1:0]color, output [3:0] r,g,b, output h
 	end
 	
 	
-	VGA_interface(
+	VGA_interface #(5) u1(
 		clk_vga, 
 		!rst, 
 		!en,
