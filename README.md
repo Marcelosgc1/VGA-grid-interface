@@ -1,7 +1,7 @@
 # VGA-grid-interface
 
 ## O que é isso?
-É uma interface simples para utilizar um monitor VGA, sendo capaz de desenhar quadrados [8x8] de cores customizadas em posições previamente estabelecidas.
+É uma interface simples para utilizar um monitor VGA, sendo capaz de desenhar quadrados [8x8] coloridos em posições previamente estabelecidas.
 
 ## Como funciona?
 Existem 64 registradores, cada um para quadrado [8x8] no monitor.
