@@ -7,9 +7,9 @@
 ![VGA c/ N = 3](images/small.png)
 
 ## Como funciona?
-Existem 64 registradores, cada um para quadrado [(2^N)-2 x (2^N)-2] no monitor.
+Existem 64 registradores, cada um para quadrado [(2^N) x (2^N)] no monitor.
 
-"N" é um parâmetro que pode ser definido na hora de instanciar o módulo. Se você quiser mostrar um quadrado [30x30] por exemplo, basta passar como parâmetro 5, pois 2^5 = 32, 32 - 2 = 30. O valor padrão é 3. (2^3-2 = 6). É recomendado usar apenas valores de N no intervalo [3,5].
+"N" é um parâmetro que pode ser definido na hora de instanciar o módulo. Se você quiser mostrar um quadrado [32x32] por exemplo, basta passar como parâmetro 5, pois 2^5 = 32. O valor padrão é 3. (2^3 = 8). É recomendado usar apenas valores de N no intervalo [3,5].
 
 
 Em "address", os bits [2:0] são usados para identificar a coluna e os bits [5:3] são utilizados para identificar a linha.
@@ -47,7 +47,7 @@ Copie os arquivos *VGA_driver.v* e *VGA_interface.v* para seu projeto e instanci
 
 ```verilog
 VGA_interface 
-	#(3) //Parâmetro do tamanho do quadrado, nesse exemplo o quadrado é: 2^3 - 2 = 6.
+	#(3) //Parâmetro do tamanho do quadrado, nesse exemplo o quadrado é: 2^3 = 8.
 	u1(
 		.clk_25mhz(), 
 		.reset(), 
