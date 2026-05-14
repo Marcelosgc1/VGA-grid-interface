@@ -3,6 +3,9 @@
 ## O que é isso?
 É uma interface simples para utilizar um monitor VGA, sendo capaz de desenhar quadrados coloridos em posições previamente estabelecidas.
 
+![VGA c/ N = 5](images/big.png)
+![VGA c/ N = 3](images/small.png)
+
 ## Como funciona?
 Existem 64 registradores, cada um para quadrado [(2^N)-2 x (2^N)-2] no monitor.
 
