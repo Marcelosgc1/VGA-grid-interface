@@ -46,7 +46,9 @@ module vga_test(input [5:0] addr, input [1:0]color, output [3:0] r,g,b, output h
 	assign t_color = (state != 2'b00) ? count[1:0] : color;
 	assign t_addr = (state != 2'b00) ? count : addr;
 	
-	VGA_interface #(5) u1(
+	VGA_interface 
+	#(5)
+	u1(
 		clk_vga, 
 		!rst, 
 		enable,
