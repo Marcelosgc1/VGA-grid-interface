@@ -1,33 +1,47 @@
-# VGA-grid-interface
+<h1>VGA-grid-interface</h1>
 
-## O que é isso?
-É uma interface simples para utilizar um monitor VGA, sendo capaz de desenhar quadrados coloridos em posições previamente estabelecidas.
+<h2>O que é isso?</h2>
+<p>
+  É uma interface simples para utilizar um monitor VGA, sendo capaz de desenhar quadrados coloridos em posições previamente estabelecidas.
+</p>
 
-![linhas](images/linhas.png)![colunas](images/colunas.png)
-![diagonal](images/diagonal.png)![diagonal inversa](images/diagonal_inversa.png)
+<p align="center">
+  <img src="images/linhas.png" alt="linhas" width="45%" />
+  <img src="images/colunas.png" alt="colunas" width="45%" />
+  <img src="images/diagonal.png" alt="diagonal" width="45%" />
+  <img src="images/diagonal_inversa.png" alt="diagonal inversa" width="45%" />
+</p>
 
-## Como funciona?
-Existem 64 registradores, cada um para quadrado [58 x 58] no monitor. Para visualizar cada quadrado de forma individual há uma grade cinza dividindo cada um deles.
+<h2>Como funciona?</h2>
+<p>
+  Existem 64 registradores, cada um para quadrado [58 x 58] no monitor. Para visualizar melhor cada quadrado de forma individual, foi adicionada uma grade cinza para ocupar o espaço entre os polígonos.
+</p>
 
-Em "address", os bits [2:0] são usados para identificar a coluna e os bits [5:3] são utilizados para identificar a linha que o programador pretende editar.
+<p>
+  Em <code>address</code>, os bits [2:0] são usados para identificar a coluna e os bits [5:3] são utilizados para identificar a linha que o programador pretende editar.
+</p>
 
-As cores possíveis são quatro:
-*	00 - Vermelho
-*	01 - Azul
-*	10 - Amarelo
-*	11 - Branco
+<p>As cores possíveis são quatro:</p>
+<ul>
+  <li><b>00</b> - Vermelho</li>
+  <li><b>01</b> - Azul</li>
+  <li><b>10</b> - Amarelo</li>
+  <li><b>11</b> - Branco</li>
+</ul>
 
-Para obter essas cores é preciso enviar o valor correspondente na entrada "data".
+<p>
+  Para obter essas cores é preciso enviar o valor correspondente na entrada <code>data</code>.
+</p>
+<p>
+  Ao fim, para confirmar a escrita é necessário ativar o sinal <code>write_enable</code>, para escrever os valores no registrador.
+</p>
 
-Ao fim, para confirmar a escrita é necessário ativar o sinal "write_enable", para escrever os valores no registrador.
+<h2>Exemplo:</h2>
+<p>
+  Para desenhar um quadrado azul na posicão [1][2], isso seria nas colunas de 8 - 15 e linhas 16 - 23 basta fazer:
+</p>
 
-
-## Exemplo:
-Para desenhar um quadrado azul na posicão [1][2], isso seria
-nas colunas de 8 - 15 e linhas 16 - 23 basta fazer:
-
-```text
-col = 8/8 = 1;
+<pre><code>col = 8/8 = 1;
 lin = 16/8 = 2;
 address = {{2},{1}} ou {3'b010,3'b001};
 
@@ -35,13 +49,14 @@ azul = 01;
 data = 2'b01;
 
 write_enable = 1'b1; (por 1 ciclo já basta).
-```
+</code></pre>
 
-## Como usar em meu projeto?
-Copie os arquivos *VGA_driver.v* e *VGA_interface.v* para seu projeto e instancie o módulo VGA_interface.
+<h2>Como usar em meu projeto?</h2>
+<p>
+  Copie os arquivos <em>VGA_driver.v</em> e <em>VGA_interface.v</em> para seu projeto e instancie o módulo <code>VGA_interface</code>.
+</p>
 
-```verilog
-VGA_interface 
+<pre><code class="language-verilog">VGA_interface 
 	u1(
 		.clk_25mhz(), 
 		.reset(), 
@@ -54,4 +69,4 @@ VGA_interface
 		.G(),
 		.B()
 	);
-```
+</code></pre>
