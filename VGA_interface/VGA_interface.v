@@ -10,7 +10,7 @@ module VGA_interface
 );
 
 	wire [9:0] x_count, y_count;
-	reg in_scope, is_edge, modulo_59, modulo_0;
+	reg in_scope, is_edge;
 	reg [1:0] curr_reg;
 	reg [1:0] register [63:0];
 	reg [2:0] x_axis, y_axis;
@@ -33,11 +33,9 @@ module VGA_interface
 	
 	always @(*) begin	
 		x_offset = {1'b0, x_count} - 11'sd80;
-		modulo_59 = (y_count%60 == 59) | (x_offset%60 == 59);
-		modulo_0 = (y_count%60 == 0) | (x_offset%60 == 0);
 
-		is_edge = modulo_0 | modulo_59; //verifica se algum dos contadores se encontra em uma borda (grid)
-		in_scope = (x_count > 79) & (x_count < 560); //verifica se os contadores estao fora do intervalo 0-63, nas linhas e colunas.
+		is_edge = (y_count%60 == 0) | (x_offset%60 == 0) | (y_count%60 == 59) | (x_offset%60 == 59); //verifica se algum dos contadores se encontra em uma borda (grid)
+		in_scope = (x_offset < 480); //verifica se os contadores estao fora do intervalo [80,480[ , nas linhas e colunas.
 
 		x_axis = x_offset/60;
 		y_axis = y_count/60;
@@ -48,10 +46,10 @@ module VGA_interface
 			color = 12'h888; //cinza 
 		else if (in_scope)
 			case (curr_reg)
-				2'b00: color = 12'hF00;
-				2'b01: color = 12'h00F;
-				2'b10: color = 12'hFF0;
-				2'b11: color = 12'hFFF;
+				2'b00: color = 12'hF00; //vermelho
+				2'b01: color = 12'h00F; //azul
+				2'b10: color = 12'hFF0; //amarelo
+				2'b11: color = 12'hFFF; //branco
 			endcase
 		else
 			color = 12'h000; //preto
