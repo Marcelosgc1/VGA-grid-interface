@@ -2,7 +2,7 @@
 
 module vga_test(input [5:0] addr, input [1:0]color, mode, output [3:0] r,g,b, output hs,vs, input rst, en, clk);
 
-	parameter base = 4;
+	parameter base = 5;
 	parameter size = 2**base;
 	parameter limit = (2*base)-1;
 
@@ -55,7 +55,8 @@ module vga_test(input [5:0] addr, input [1:0]color, mode, output [3:0] r,g,b, ou
 	
 	VGA_interface 
 	#(
-		base //grid de [(2^base)-2 x (2^base)-2]
+		base, //grid de [(2^base)-2 x (2^base)-2]
+		1
 	)
 	u1(
 		clk_vga, 
