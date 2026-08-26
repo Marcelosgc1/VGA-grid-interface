@@ -49,6 +49,9 @@ data = 2'b01;
 write_enable = 1'b1; (por 1 ciclo já basta).
 </code></pre>
 
+<p>Exemplo de forma de onda:</p>
+<img src="images/waveform.png" alt="forma de onda" width="99%" />
+
 <h2>Como usar em meu projeto?</h2>
 <p>
   Copie os arquivos <em>VGA_driver.v</em> e <em>VGA_interface.v</em> para seu projeto e instancie o módulo <code>VGA_interface</code>.
